@@ -1,0 +1,32 @@
+<div id="sidebar">
+
+    <div class="row my-3">
+        <div class="col text-center">
+            <p-image
+                src="../../../assets/images/FBS_LOGO2.png" 
+                alt="FBS-LOGO" 
+                width="100">
+            </p-image>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <ul class="list-group">
+                <li *ngFor="let item of menuItems"
+                    class="list-group-item"
+                    [routerLink]="item.ruta"
+                    routerLinkActive="active animate__animated animate__pulse animate__faster"
+                >
+                    {{item.nombre }}
+                </li>
+            </ul>
+
+        </div>
+
+    </div>
+
+    
+</div>
+
+

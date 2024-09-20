@@ -1,0 +1,54 @@
+<div class="p-fluid row mb-2 gap-1">
+    <div class="field col-lg-2 col-md col-sm-12">
+        <p-button styleClass="p-button-warning" label="Agregar" icon="pi pi-plus" (click)="agregarAreaDialog()"></p-button>
+    </div>
+    <div class="field col-lg-3 col-md col-sm-12 ms-auto">
+        <div class="p-inputgroup">
+            <span (click)="inputFilter.focus()" class="p-inputgroup-addon"><i class="pi pi-search"></i></span>
+            <input pInputText #inputFilter type="text" (input)="dt.filterGlobal(inputFilter.value, 'contains')" [(ngModel)]="inputFiltro"
+            placeholder="Filtro Global" />
+            <button pButton class="p-button-outlined p-button-primary" icon="pi pi-filter-slash"
+            (click)="clear(dt)"></button>
+        </div>
+    </div>
+</div>
+
+<p-table #dt dataKey="id" [columns]="cols" [value]="areas" [loading]="loading" [tableStyle]="{'min-width': '70rem'}"
+    [rowsPerPageOptions]="[10,25,50]" [rows]="15" [rowHover]="true" [paginator]="true" [showCurrentPageReport]="true"
+    currentPageReportTemplate="{first} a {last} de {totalRecords} registros"
+    [globalFilterFields]="['ID_AREA','NOMBRE_AREA','DESCRIPCION_AREA','FECHA']">
+
+    <ng-template pTemplate="header" let-columns>
+        <tr>
+            <th *ngFor="let col of cols" [pSortableColumn]="col.field" [style]="col.style">
+                <span class="fbs-roboto-500">{{col.header | titlecase}}</span>
+                <p-sortIcon *ngIf="col.field" [field]="col.field"></p-sortIcon>
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-area>
+        <tr>
+            <td>{{area.ID_AREA}}</td>
+            <td>{{area.NOMBRE_AREA | titlecase}}</td>
+            <td>{{area.DESCRIPCION_AREA}}</td>
+            <td>{{area.FECHA | date : 'dd/MM/YYYY'}}</td>
+            <td>
+                <button pButton pRipple icon="pi pi-sitemap" class="p-button-rounded p-button-primary me-2"
+                    (click)="asociarTramites(area)"></button>
+                <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-warning me-2"
+                    (click)="editarAreaDialog(area)"></button>
+                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger"
+                    (click)="eliminarAreaDialog(area)"></button>
+            </td>
+        </tr>
+    </ng-template>
+
+</p-table>
+
+<!-- Componentes necesarios -->
+
+
+<app-asociar-tramites-dialog></app-asociar-tramites-dialog>
+
+<app-aed-area (refreshData)="cargarAreas()"></app-aed-area>
+
